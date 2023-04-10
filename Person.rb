@@ -1,3 +1,5 @@
+require_relative 'student'
+
 class Person 
 
     attr_reader :id, :name, :age, :parent_permission
