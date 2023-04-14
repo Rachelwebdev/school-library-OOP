@@ -7,83 +7,81 @@ require_relative 'rental'
 require_relative 'student'
 
 class App
-    def initialize
-        @books = []
-        @people = []
-        @rentals = []
+  def initialize
+    @books = []
+    @people = []
+    @rentals = []
+  end
+
+  def all_books
+    if @books.empty?
+      'There are no books'
+    else
+      @books.each do |each_book|
+        puts "Title: \"#{each_book.title}\", Author: \"#{each_book.author}\""
+      end
     end
+  end
 
-    def all_books
-        if @books.empty? 
-            'There are no books'
-        else
-            @books.each do |each_book|
-                puts "Title: \"#{each_book.title}\", Author: \"#{each_book.author}\""
-            end
-        end
+  def all_people
+    if @people.empty?
+      'There are no people'
+    else
+      @people.each do |each_person|
+        puts "Name: #{each_person.name}, ID: #{each_person.id}, Age: #{each_person.age}"
+      end
     end
+  end
 
-    def all_people 
-        if @people.empty?
-            'There are no people'
-        else
-            @people.each do |each_person|
-                puts "Name: #{each_person.name}, ID: #{each_person.id}, Age: #{each_person.age}"
-            end
-        end
+  def create_person
+    print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
+    number = gets.chomp.to_i
+    if number == 1
+      create_student
+    elsif number == 2
+      create_teacher
     end
+  end
 
-    def create_person 
-        person_type = person_type_switch
-        return if person_type.nil?
+  def create_student
+    print 'Age: '
+    age = gets.chomp.to_i
+    print 'Name: '
+    name = gets.chomp
+    print 'Has parent permission? [Y/N]: '
+    parent_permission = gets.chomp
+   
 
-        print 'Name: '
-        name = gets.chomp
-        print 'Age: '
-        age = gets.chomp.to_i
-        person = 
-        case person_type
-        when '1'
-            print 'classroom: '
-            classroom = gets.chomp
-            print 'Has parent permission? [Y/N]: '
-            parent_permission = gets.chomp
-            parent_permission = parent_permission.downcase == 'y'
-            classroom = Classsroom.new(classroom)
-            Student.new(classroom, age, name, parent_permission: parent_permission)
-        when '2'
-            print 'Specialization: '
-            Specialization = gets.chomp
+    each_student = Student.new(age, name, parent_permission)
+    @people << each_student
+    puts 'Person created successfully'
+  end
 
-            Teacher.new(age, specialization, name)
-        end
+  def create_teacher
+    print 'Age: '
+    age = gets.chomp.to_i
+    print 'Name: '
+    name = gets.chomp
+    print 'Specialization: '
+    specialization = gets.chomp
 
-        @people << person
-        puts 'Person created successfully'
-    end
+    each_teacher = Teacher.new(age, specialization, name)
+    @people << each_teacher
+    puts 'Person created successfully'
+  end
 
-    def person_type_switch
-        print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
-        person_type = gets.chomp
-        if person_type != '1' && person_type ! = '2'
-            puts 'Invalid option'
-            return
-        end
-        person_type
-    end
+  def create_book
+    print 'Title: '
+    title = gets.chomp
+    print 'Author: '
+    author = gets.chomp
 
-    def create_book 
-        print 'Title: '
-        title = gets.chomp
-        print 'Author: '
-        author = gets.chomp
+    each_book = Book.new(title, author)
+    @books << each_book
+    puts 'Book created successfully'
+  end
 
-        each_book = Book.new(title, author)
-        @books << each_book
-        puts 'Book created successfully'
-    end
-
-    def create_rental
+  def create_rental
     if @books.empty?
       puts 'Book array is empty'
     elsif @people.empty?
@@ -103,7 +101,7 @@ class App
   def select_book
     puts 'Select a book from the following list by number:'
     @books.each_with_index do |book, index|
-      puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}"
+      puts "#{index} Title: \"#{book.title}\", Author: #{book.author}"
     end
     gets.chomp.to_i
   end
@@ -111,7 +109,7 @@ class App
   def select_person
     puts 'Select a person from the following list by number (not id):'
     @people.each_with_index do |person, index|
-      puts "#{index}) Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      puts "#{index} Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     gets.chomp.to_i
   end
