@@ -22,4 +22,14 @@ class App
             end
         end
     end
+
+    def all_people 
+        if @people.empty?
+            'There are no people'
+        else
+            @people.each do |each_person|
+                puts "Name: #{each_person.name}, ID: #{each_person.id}, Age: #{each_person.age}"
+            end
+        end
+    end
 end
