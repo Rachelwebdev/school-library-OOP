@@ -3,7 +3,7 @@ class Teacher < Person
   attr_accessor :specialization
 
   def initialize(age, specialization, name, parent_permission: true)
-     super(name)
+    super(name)
     @specialization = specialization
     @age = age
     @parent_permission = parent_permission

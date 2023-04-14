@@ -5,6 +5,7 @@ require_relative 'classroom'
 require_relative 'teacher'
 require_relative 'rental'
 require_relative 'student'
+# require 'pry'
 
 class App
   def initialize
@@ -50,7 +51,6 @@ class App
     name = gets.chomp
     print 'Has parent permission? [Y/N]: '
     parent_permission = gets.chomp
-   
 
     each_student = Student.new(age, name, parent_permission)
     @people << each_student
@@ -91,7 +91,7 @@ class App
       rental_person = select_person
       date = the_rental_date
 
-      rental = Rental.new(date, @people[rental_person], @books[rental_book])
+      rental = Rental.new(date, @books[rental_book], @people[rental_person])
 
       @rentals << rental
       puts 'Rental created successfully'
@@ -127,7 +127,6 @@ class App
       person_id = gets.chomp.to_i
 
       rentals_found = false
-
       @rentals.each do |rental|
         next unless rental.person.id == person_id
 
